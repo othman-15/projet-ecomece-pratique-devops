@@ -1,0 +1,63 @@
+<div class="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  <div class="card shadow-lg p-5 rounded-4" style="width: 100%; max-width: 400px;">
+
+    <!-- Header -->
+    <div class="text-center mb-4">
+      <h2 class="text-dark fw-bold">Connexion</h2>
+      <p class="text-muted mb-0">Bienvenue ! Connectez-vous à votre compte.</p>
+    </div>
+
+
+    <form (ngSubmit)="onLogin()">
+
+
+      <div class="mb-3">
+        <label for="login" class="form-label fw-semibold">Email ou téléphone</label>
+        <input
+          type="email"
+          class="form-control rounded-pill px-4"
+          id="login"
+          placeholder="example@mail.com"
+          [(ngModel)]="login"
+          name="login"
+          required
+        />
+      </div>
+
+
+      <div class="mb-3">
+        <label for="password" class="form-label fw-semibold">Mot de passe</label>
+        <input
+          type="password"
+          class="form-control rounded-pill px-4"
+          id="password"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+          name="password"
+          required
+          minlength="6"
+        />
+        <small class="form-text text-muted ms-2">6 caractères minimum.</small>
+      </div>
+
+
+      <div *ngIf="errorMessage" class="alert alert-danger text-center py-2">
+        {{ errorMessage }}
+      </div>
+
+
+      <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-dark rounded-pill py-2">
+          Se connecter
+        </button>
+      </div>
+
+
+      <div class="text-center mt-3">
+        <small class="text-muted">Pas encore de compte ?
+          <a [routerLink]="['/signup']" class="text-decoration-none text-black fw-semibold">Créer un compte</a>
+        </small>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,49 @@
+<div class="container mt-4 bg-light p-4 rounded-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 bg-dark text-white p-3 rounded-3">
+    <h5 class="mb-0 fw-semibold">Product List</h5>
+    <button class="btn btn-outline-light" (click)="addProduct()">
+      <i class="bi bi-plus-circle"></i> Add Product
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger text-center py-2 rounded-3">{{ errorMessage }}</div>
+
+  <table class="table table-hover align-middle bg-white rounded-4 overflow-hidden shadow-sm">
+    <thead class="table-dark">
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Color</th>
+      <th>Quantity</th>
+      <th>Price (DH)</th>
+      <th>Category</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let product of products" class="align-middle">
+      <td>
+        <img [src]="product.image" alt="{{product.productTitle}}" width="60" class="img-thumbnail rounded-3" />
+      </td>
+      <td class="fw-semibold">{{ product.productTitle }}</td>
+      <td>{{ product.colors }}</td>
+
+      <td>
+          <span [class]="product.quantity > 2 ? 'badge bg-success' : 'badge bg-danger'">
+             {{ product.quantity}} {{ product.quantity > 2 ? 'Available' : 'Out of stock' }}
+          </span>
+      </td>
+      <td>{{ product.productPrice }}</td>
+      <td>{{ product.category }}</td>
+      <td>
+        <button class="btn btn-sm btn-outline-dark me-1 rounded-3" (click)="editProduct(product.productID)">
+          <i class="bi bi-pencil-square"></i>
+        </button>
+        <button class="btn btn-sm btn-outline-danger rounded-3" (click)="deleteProduct(product.productID)">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

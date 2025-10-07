@@ -1,0 +1,87 @@
+
+<!--<div class="p-3">-->
+<!--  <div class="card">-->
+<!--    <div class="card-header"> List of Product</div>-->
+<!--    <div class="card-body">-->
+
+<!--        <input type="text" [(ngModel)]="keyword"  class="form-input">-->
+<!--        <button class="btn btn-outline-success" (click)="Find()" >search</button>-->
+
+
+<!--<header class="bg-dark py-5">-->
+<!--  <div class="container px-4 px-lg-5 my-5">-->
+<!--    <div class="text-center text-white">-->
+<!--      <h1 class="display-4 fw-bolder">Shop </h1>-->
+<!--      <p class="lead fw-normal text-white-50 mb-0"></p>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</header>-->
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row row-cols-2 row-cols-sm-3 row-cols-lg-4 row-cols-xl-5 g-4 justify-content-center">
+      <div class="col" *ngFor="let product of products">
+        <div class="card h-100 shadow-sm product-card border-0 position-relative p-2">
+
+
+          <button class="btn btn-light position-absolute shadow-sm"
+                  (click)="toggleFavorite(product)"
+                  [ngClass]="{ 'text-black': product.favorite, 'text-muted': !product.favorite }"
+                  style="top: 0.5rem; right: 0.5rem; z-index: 1; border-radius: 50%; ">
+            <i class="bi" [ngClass]="product.favorite ? 'bi-heart-fill' : 'bi-heart'"></i>
+          </button>
+
+
+          <div class="ratio ratio-4x3">
+            <img [src]="product.image"
+                 [alt]="product.productTitle"
+                 class="card-img-top rounded"
+                 style="object-fit: cover;" />
+          </div>
+
+                <div *ngIf="product.colors?.length" class="d-flex justify-content-center gap-2 mt-2">
+                  <span
+                    *ngFor="let color of product.colors"
+                    (click)="selectColor(product, color)"
+                    class="rounded-circle border"
+                    [ngClass]="{ 'selected-color': product.selectedColor === color }"
+                    [ngStyle]="{ 'background-color': color }"
+                    style="width: 18px; height: 18px; display: inline-block; cursor: pointer;"
+                    title="{{ color }}">
+</span>
+
+                </div>
+          <div class="card-body text-center">
+            <h6 class="fw-bold mb-2">{{ product.productTitle }}</h6>
+
+
+            <div *ngIf="product.quantity < 5" class="badge bg-danger mb-2 px-3 py-1 fs-6">
+              Stock faible
+            </div>
+            <div *ngIf="product.quantity >= 5" class="text-success mb-2">
+              {{ product.quantity }} en stock
+            </div>
+
+
+            <div class="text-muted fs-5 fw-semibold">{{ product.productPrice }} MAD</div>
+          </div>
+
+
+          <div class="card-footer bg-transparent border-0 text-center d-flex justify-content-center gap-2 pb-3">
+            <a class="btn btn-sm btn-outline-dark rounded-pill px-3"
+               [routerLink]="['/product', product.productID]">
+              View Details
+            </a>
+            <button class="btn btn-sm btn-dark text-white rounded-pill px-3"
+                    (click)="addToCart(product)">
+              Add to bag
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+

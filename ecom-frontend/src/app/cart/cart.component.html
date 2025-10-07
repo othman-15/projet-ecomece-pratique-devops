@@ -1,0 +1,155 @@
+<div class="container py-5">
+  <div class="row g-4">
+
+    <div class="col-lg-8">
+      <h4 class="mb-4 fw-bold">
+        Your Shopping Cart
+        <span class="badge bg-dark ms-2">{{totalArticles}}</span>
+      </h4>
+
+
+      <div *ngIf="cartItems.length === 0" class="alert alert-info text-center py-4">
+        <i class="bi bi-cart-x fs-4 d-block mb-2"></i>
+        <p class="mb-0">Your cart is currently empty.</p>
+      </div>
+
+
+      <div *ngIf="cartItems.length > 0" class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <div *ngFor="let item of cartItems" class="d-flex justify-content-between align-items-center border-bottom pb-3 mb-3">
+            <!-- Product Image & Info -->
+            <div class="d-flex align-items-center">
+              <div class="position-relative me-3">
+                <img [src]="item.product.image || 'assets/images/placeholder.jpg'"
+                     [alt]="item.product.productTitle"
+                     class="rounded"
+                     width="90"
+                     height="90"
+                     style="object-fit: cover; border: 1px solid #eee;">
+                <span *ngIf="item.quantity > 1"
+                      class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-dark">
+                  {{item.quantity}}
+                </span>
+              </div>
+
+              <div>
+                <h5 class="mb-1 fw-semibold">{{item.product.productTitle}}</h5>
+                <div class="text-muted">{{item.product.productPrice | currency:'MAD':'symbol'}}</div>
+
+
+                <div *ngIf="item.selectedColor" class="mt-2">
+                  <span class="badge bg-light text-dark border">
+                    Color:
+                    <span class="color-dot d-inline-block rounded-circle ms-1"
+                          [style.background-color]="item.selectedColor"
+                          style="width: 12px; height: 12px;"></span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="d-flex align-items-center">
+
+              <div class="input-group input-group-sm me-3" style="width: 120px;">
+                <button class="btn btn-outline-secondary"
+                        (click)="updateQuantity(item, item.quantity - 1)"
+                        [disabled]="item.quantity <= 1">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <input type="number"
+                       class="form-control text-center"
+                       [(ngModel)]="item.quantity"
+                       (change)="updateQuantity(item, item.quantity)"
+                       min="1"
+                       max="99">
+                <button class="btn btn-outline-secondary"
+                        (click)="updateQuantity(item, item.quantity + 1)"
+                        [disabled]="item.quantity >= 99">
+                  <i class="bi bi-plus"></i>
+                </button>
+              </div>
+
+
+              <div class="fw-bold me-3">
+                {{(item.product.productPrice * item.quantity) | currency:'MAD':'symbol'}}
+              </div>
+
+
+              <button class="btn btn-sm btn-outline-danger rounded-circle"
+                      (click)="removeItem(item.product.productID, item.selectedColor)"
+                      title="Remove">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
+        <div class="card-body p-4">
+          <h5 class="card-title fw-bold mb-4">
+            <i class="bi bi-receipt me-2"></i>Order Summary
+          </h5>
+
+
+          <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal ({{totalArticles}} item{{totalArticles > 1 ? 's' : ''}})</span>
+            <span class="fw-semibold">{{totalPrice | currency:'MAD':'symbol'}}</span>
+          </div>
+
+
+          <div class="d-flex justify-content-between mb-3">
+            <span>Shipping</span>
+            <span class="fw-semibold">{{shipping | currency:'MAD':'symbol'}}</span>
+          </div>
+
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Delivery Method</label>
+            <select class="form-select" [(ngModel)]="shipping">
+              <option *ngFor="let option of shippingOptions" [value]="option.value">
+                {{option.label}}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Promo Code</label>
+            <div class="input-group">
+              <input type="text"
+                     class="form-control"
+                     [(ngModel)]="promoCode"
+                     placeholder="Enter your code">
+              <button class="btn btn-outline-dark" >
+                Apply
+              </button>
+            </div>
+          </div>
+
+          <hr class="my-3">
+
+
+          <div class="d-flex justify-content-between fw-bold fs-5 mb-4">
+            <span>Total</span>
+            <span class="text-dark">{{grandTotal | currency:'MAD':'symbol'}}</span>
+          </div>
+
+
+          <button class="btn btn-dark w-100 py-2 fw-bold"
+                  (click)="checkout()"
+                  [disabled]="cartItems.length === 0">
+            <i class="bi bi-bag-check me-2"></i>Proceed to Checkout
+          </button>
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

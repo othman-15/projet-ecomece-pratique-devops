@@ -1,0 +1,58 @@
+body {
+  background: linear-gradient(to right, #ffa600, #ff8c00);
+}
+img {
+  object-fit: cover;
+}
+input[type="number"]::-webkit-inner-spin-button {
+  opacity: 1;
+}
+.color-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.input-group button {
+  width: 40px;
+} /* Style du point de couleur */
+.color-dot {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1px solid #dee2e6;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+/* Animation pour les boutons */
+.btn {
+  transition: all 0.2s ease;
+}
+
+/* Style pour les inputs de quantité */
+.input-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.input-group input[type="number"]::-webkit-outer-spin-button,
+.input-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Adaptation responsive */
+@media (max-width: 992px) {
+  .sticky-top {
+    position: static !important;
+  }
+}

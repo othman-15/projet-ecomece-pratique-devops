@@ -1,0 +1,83 @@
+<section class="py-5 bg-white">
+  <div class="container-fluid px-4 px-lg-5 my-5">
+    <div class="row gx-5 gy-5 align-items-center">
+
+      <div class="col-lg-6 text-center">
+        <img [src]="product?.image"
+             class="img-fluid rounded shadow-sm"
+             style="max-height: 450px; object-fit: contain;"
+             alt="{{product?.productTitle}}" />
+
+        <!-- Section des couleurs déplacée ici et améliorée -->
+        <div class="my-4">
+          <h6 class="fw-semibold mb-3">Couleurs disponibles :</h6>
+          <div *ngIf="product?.colors as colors" class="d-flex justify-content-center gap-3">
+            <span
+              *ngFor="let color of colors"
+              (click)="selectColor(color)"
+              class="rounded-circle shadow-sm"
+              [ngStyle]="{
+                'background-color': color,
+                'border': product?.selectedColor === color ? '2px solid black' : '1px solid #dee2e6',
+                'transform': product?.selectedColor === color ? 'scale(1.1)' : 'scale(1)'
+              }"
+              style="width: 25px; height: 25px; display: inline-block; cursor: pointer; transition: all 0.2s ease;"
+              title="{{ color }}">
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold mb-3">{{ product?.productTitle }}</h1>
+        <div class="fs-5 mb-3">
+          <span class="text-decoration-line-through text-muted me-2">{{ product?.productPrice }} DH</span>
+          <span class="fw-bold text-dark">{{ product?.productPrice }} MAD</span>
+        </div>
+        <p class="mb-2"><strong>Quantité disponible :</strong> {{ product?.quantity }}</p>
+        <p class="lead text-muted mb-4">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium at dolorem quidem modi. Nam sequi consequatur obcaecati excepturi alias magni.
+        </p>
+        <div class="d-flex align-items-center">
+          <input id="inputQuantity"
+                 type="number"
+                 value="1"
+                 min="1"
+                 [max]="product?.quantity"
+                 class="form-control form-control-sm w-25 text-center me-3 shadow-sm" />
+          <button class="btn btn-dark btn-lg" type="button" (click)="addToCart(product!)">
+            Add to Bag
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light">
+  <div class="container px-4 px-lg-5 mt-4">
+    <h2 class="fw-bold text-center mb-4">Related products</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-1 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      <div class="col mb-5" *ngFor="let product of products">
+        <div class="card h-100 shadow-sm border-0 product-card">
+          <div class="ratio ratio-4x3">
+            <img [src]="product.image" [alt]="product.productTitle"
+                 class="card-img-top p-2"
+                 style="object-fit: contain;" />
+          </div>
+
+          <div class="card-body p-4 text-center">
+            <h5 class="fw-semibold">{{ product.productTitle }}</h5>
+            <p class="text-muted mb-1">{{ product.productPrice }} MAD</p>
+          </div>
+
+          <div class="card-footer border-top-0 bg-transparent text-center pb-4">
+            <button class="btn btn-outline-dark btn-sm px-4" (click)="addToCart(product)">
+              Add to Bag
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

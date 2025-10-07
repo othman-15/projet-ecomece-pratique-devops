@@ -1,0 +1,7 @@
+table img {
+  max-height: 50px;
+}
+
+button i {
+  pointer-events: none;
+}
