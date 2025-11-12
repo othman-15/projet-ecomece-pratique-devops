@@ -9,3 +9,5 @@
 # Fichiers de base de données locales
 *.h2.db
 test-db.*
+
+target/
