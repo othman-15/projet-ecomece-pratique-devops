@@ -1,65 +1,68 @@
-🧭 Projet Global DevOps – Application E-commerce (Partie 1 & 2)
+🧭 Projet Global DevOps – Application E-commerce
 
-Ce projet personnel a été réalisé dans le cadre de ma formation DevOps afin de mettre en pratique les notions de conteneurisation, orchestration, et déploiement automatisé. Il s’agit d’une application e-commerce complète comprenant un frontend Angular, un backend Spring Boot et une base de données MySQL.
-L’objectif global est de transformer une application classique en un projet DevOps professionnel, intégrant par la suite les pratiques CI/CD, Kubernetes et le monitoring.
+Ce projet personnel, réalisé dans le cadre de ma formation DevOps, a pour but de transformer une application e-commerce classique (Angular, Spring Boot, MySQL) en une solution professionnelle intégrant les meilleures pratiques de conteneurisation, d'automatisation (CI/CD avec Jenkins), d'orchestration (Kubernetes) et de monitoring (Prometheus/Grafana).
 
-Les deux premières parties présentées ici correspondent à :
-
-1. La préparation et structuration du projet ;
-
-2. La conteneurisation complète avec Docker et Docker Compose.
+Les deux premières parties sont terminées et prêtes pour l'intégration CI/CD.
 
 
-🧩 Description générale du projet
 
-L’application e-commerce offre une interface utilisateur moderne , permettant de naviguer entre les produits, d’effectuer des recherches et de gérer des commandes.
-Le backend Spring Boot gère la logique métier, la sécurité (JWT), et l’accès aux données stockées dans MySQL.
-Le frontend Angular, quant à lui, est servi par Nginx et offre une interface responsive.
+🧩 Description Générale du Projet
 
-L’ensemble de ces composants est désormais exécuté sous forme de conteneurs Docker, interconnectés via un réseau interne (ecom-net), ce qui facilite le déploiement, la portabilité et la reproductibilité du projet.
+L’application e-commerce est structurée en trois services interconnectés :
 
+Frontend (Angular) : Interface utilisateur moderne servie par Nginx.
 
-⚙️ Partie 1 – Préparation du projet
+Backend (Spring Boot) : API REST gérant la logique métier et la sécurité (JWT).
 
-La première étape a consisté à organiser le projet en plusieurs modules distincts:
+Base de données (MySQL) : Stockage des données produits et commandes.
 
-- ecom-backend pour le code Spring Boot ;
+L’ensemble est désormais géré par Docker Compose, ce qui assure la portabilité et la reproductibilité de l’environnement.
 
-- ecom-frontend pour le projet Angular ;
+⚙️ Partie 1 – Préparation et Structuration
 
-- db (optionnel) pour la configuration MySQL.
+Cette phase a consisté à poser les bases du projet :
 
-Un dépôt Git a été initialisé et poussé vers GitHub.
-Un fichier .gitignore a été ajouté pour exclure les fichiers inutiles (builds, logs, secrets, node_modules, etc.).
+Organisation : Le code est séparé en répertoires ecom-backend, ecom-frontend.
 
-Avant la conteneurisation, chaque composant a été testé localement :
+Versionnement : Initialisation d'un dépôt Git et poussée vers GitHub.
 
-- build du backend avec ./mvwn clean package -DskipTests
-- Lancement du backend avec mvn spring-boot:run ;
-- build du frontend avec ng build
-- Lancement du frontend avec ng serve ;
-
-Vérification de la connexion à MySQL via localhost:3306.
-
-Une fois la vérification effectuée, le projet a été préparé pour la phase Docker.
-
+Exclusions : Mise en place des fichiers .gitignore pour exclure les builds, logs, secrets et dépendances (node_modules, target/).
 
 🐳 Partie 2 – Conteneurisation avec Docker
 
-L’objectif de cette partie était de conteneuriser les trois services :
+Cette phase est validée et le projet est entièrement conteneurisé.
 
-Backend Spring Boot → image basée sur openjdk:17, exécutant le backend.jar ;
+Dockerfiles Multi-Stage :
 
-Frontend Angular → image basée sur nginx:alpine, servant le build Angular depuis dist/fapp/browser ;
+Backend : Utilisation d'un Dockerfile multi-stage basé sur eclipse-temurin:21 pour la compilation (mvnw clean package) et le runtime léger, garantissant des images finales optimisées.
 
-MySQL → image officielle mysql:8.0, configurée via des variables d’environnement.
+Frontend : Utilisation d'un Dockerfile multi-stage pour la compilation Angular avec Node.js, et le service des assets statiques via Nginx (nginx:alpine).
 
-Un fichier docker-compose.yml a été créé pour orchestrer les conteneurs. Il définit :
+Orchestration : Le fichier docker-compose.yml définit l'ensemble de l'environnement, incluant les variables d'environnement pour la connexion MySQL et un healthcheck pour la base de données afin de garantir l'ordre de démarrage.
 
-Un service MySQL avec volume persistant et variables (MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD) ;
+🚀 Démarrage Rapide (Lancement Local via Docker Compose)
 
-Un service Spring Boot configuré pour se connecter à MySQL via mysql-db ;
+Pour démarrer l'environnement complet (MySQL, Backend, Frontend) :
 
-Un service Angular utilisant Nginx pour servir l’interface utilisateur.
+Assurez-vous que Docker Desktop est lancé.
 
-Grâce à docker-compose up --build, l’ensemble du projet peut désormais être lancé en une seule commande, garantissant un environnement homogène sur toute machine.
+Placez-vous à la racine du projet.
+
+Lancez la commande :
+
+docker-compose up --build
+
+
+L'application sera accessible dans votre navigateur à l'adresse : http://localhost:8086
+
+⏭️ Prochaine Étape : Partie 3 – CI/CD avec Jenkins
+
+La prochaine phase consistera à créer un Pipeline Jenkins pour automatiser :
+
+Le clonage du dépôt.
+
+La construction des images Docker (en utilisant les Dockerfiles multi-stage).
+
+L'authentification et le push des images vers Docker Hub.
+
+Le déploiement automatisé sur Kubernetes (Partie 4).
