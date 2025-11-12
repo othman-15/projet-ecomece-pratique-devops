@@ -43,6 +43,7 @@ bin/
 logs/
 *.log
 
+
 ## Configuration files
 application.properties
 application-dev.properties
