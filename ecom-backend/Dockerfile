@@ -5,6 +5,7 @@ FROM  eclipse-temurin:21 AS builder
 WORKDIR /app
 # Copier les fichiers de build Maven
 COPY mvnw .
+RUN chmod +x
 COPY pom.xml .
 COPY .mvn/ .mvn/
 # Pré-télécharger les dépendances pour la mise en cache
