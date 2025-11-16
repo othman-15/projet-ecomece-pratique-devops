@@ -55,14 +55,55 @@ docker-compose up --build
 
 L'application sera accessible dans votre navigateur à l'adresse : http://localhost:8086
 
-⏭️ Prochaine Étape : Partie 3 – CI/CD avec Jenkins
+🚀 Partie 3 – CI/CD avec Jenkins (Succès Complet)
 
-La prochaine phase consistera à créer un Pipeline Jenkins pour automatiser :
+Cette phase a permis d'automatiser l'ensemble du processus de build et de publication des images sur Docker Hub.
 
-Le clonage du dépôt.
+Architecture Jenkins
 
-La construction des images Docker (en utilisant les Dockerfiles multi-stage).
+Installation : Jenkins est installé sur une Machine Virtuelle CentOS .
 
-L'authentification et le push des images vers Docker Hub.
+Plugins : Installation des plugins essentiels (Git, Docker Pipeline, NodeJS, Maven Integration).
 
-Le déploiement automatisé sur Kubernetes (Partie 4).
+Identifiants : Création d'un identifiant secret nommé dockerhub-creds dans Jenkins pour stocker le Jeton d'Accès Docker Hub (avec droits d'écriture).
+
+Pipeline Déclaratif (Jenkinsfile)
+
+Le pipeline est configuré en mode Multibranch et exécute les étapes suivantes :
+
+Checkout Code : Clone le dépôt GitHub.
+
+Build Backend Image : Exécute docker build en mode multi-stage sur ./ecom-backend.
+
+Build Frontend Image : Exécute docker build en mode multi-stage sur ./ecom-frontend.
+
+Push Images to Docker Hub : Se connecte au registre ("...."") en utilisant le Jeton d'Accès, puis pousse les images backend et frontend avec les tags ${env.BUILD_NUMBER} et :latest.
+
+Résolution : Malgré des échecs initiaux dus à un problème de portée du Jeton d'Accès et des problèmes de connection reset by peer, l'étape a été validée avec succès.
+
+Résultat Final
+
+Les images suivantes sont disponibles sur Docker Hub, prêtes pour le déploiement Kubernetes :
+
+root855/ecom-app-backend:latest
+
+root855/ecom-app-frontend:latest
+
+🛠️ Démarrage Rapide (Lancement Local via Docker Compose)
+
+Pour démarrer l'environnement complet (MySQL, Backend, Frontend) pour le développement local :
+
+Assurez-vous que Docker Desktop est lancé.
+
+Placez-vous à la racine du projet.
+
+Lancez la commande :
+
+docker-compose up --build
+
+
+L'application sera accessible dans votre navigateur à l'adresse : http://localhost:8086
+
+⏭️ Prochaine Étape : Partie 4 – Orchestration avec Kubernetes
+
+L'étape suivante est de déployer ces images sur un cluster Minikube local, de configurer les secrets et volumes persistants, et de rendre l'application accessible via un service Kubernetes.
